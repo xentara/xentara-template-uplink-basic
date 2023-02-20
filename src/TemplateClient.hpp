@@ -5,7 +5,6 @@
 #include "CustomError.hpp"
 
 #include <xentara/memory/Array.hpp>
-#include <xentara/memory/memoryResources.hpp>
 #include <xentara/plugin/EnableSharedFromThis.hpp>
 #include <xentara/process/Event.hpp>
 #include <xentara/process/Microservice.hpp>
@@ -54,10 +53,10 @@ public:
 		/// @name Virtual Overrides for process::MicroserviceClass
 		/// @{
 
-		auto name() const -> std::u16string_view final
+		auto name() const -> std::string_view final
 		{
 			/// @todo change class name
-			return u"TemplateClient"sv;
+			return "TemplateClient"sv;
 		}
 	
 		auto uuid() const -> utils::core::Uuid final
@@ -93,7 +92,7 @@ public:
 
 	auto createSubservice(const process::MicroserviceClass &microserviceClass, plugin::SharedFactory<process::Microservice> &factory) -> std::shared_ptr<process::Microservice> final;
 
-	auto resolveAttribute(std::u16string_view name) -> const model::Attribute * final;
+	auto resolveAttribute(std::string_view name) -> const model::Attribute * final;
 
 	auto readHandle(const model::Attribute &attribute) const noexcept -> data::ReadHandle final;
 

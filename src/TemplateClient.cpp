@@ -40,7 +40,7 @@ auto TemplateClient::loadConfig(const ConfigIntializer &initializer,
 	for (auto && [name, value] : jsonObject)
     {
 		/// @todo load configuration parameters
-		if (name == u8"TODO"sv)
+		if (name == "TODO"sv)
 		{
 			/// @todo parse the value correctly
 			auto todo = value.asNumber<std::uint64_t>();
@@ -83,7 +83,7 @@ auto TemplateClient::createSubservice(const process::MicroserviceClass &ioClass,
 	return nullptr;
 }
 
-auto TemplateClient::resolveAttribute(std::u16string_view name) -> const model::Attribute *
+auto TemplateClient::resolveAttribute(std::string_view name) -> const model::Attribute *
 {
 	/// @todo resolve any attributes this class supports using model::Attribute::resolve
 
