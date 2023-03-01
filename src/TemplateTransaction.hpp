@@ -120,8 +120,8 @@ private:
 		bool _transactionState { false };
 		/// @brief The last time the records were sent (successfully or not)
 		std::chrono::system_clock::time_point _sendTime { std::chrono::system_clock::time_point::min() };
-		/// @brief The error code when sending the records, or 0 for none.
-		attributes::ErrorCode _error { attributes::errorCode(CustomError::Pending) };
+		/// @brief The error code when sending the records, or a default constructed std::error_code object for none.
+		std::error_code _error { CustomError::Pending };
 	};
 
 	/// @brief This class providing callbacks for the Xentara scheduler for the "send" task
