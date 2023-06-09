@@ -4,11 +4,13 @@
 #include "Attributes.hpp"
 #include "TemplateTransaction.hpp"
 
+#include <xentara/config/FallbackHandler.hpp>
 #include <xentara/data/ReadHandle.hpp>
 #include <xentara/memory/WriteSentinel.hpp>
 #include <xentara/model/Attribute.hpp>
-#include <xentara/plugin/SharedFactory.hpp>
+#include <xentara/model/ForEachAttributeFunction.hpp>
 #include <xentara/process/ExecutionContext.hpp>
+#include <xentara/skill/ElementFactory.hpp>
 #include <xentara/utils/eh/currentErrorCode.hpp>
 #include <xentara/utils/json/decoder/Errors.hpp>
 #include <xentara/utils/json/decoder/Object.hpp>
@@ -31,7 +33,7 @@ TemplateClient::Class TemplateClient::Class::_instance;
 auto TemplateClient::loadConfig(const ConfigIntializer &initializer,
 		utils::json::decoder::Object &jsonObject,
 		config::Resolver &resolver,
-		const FallbackConfigHandler &fallbackHandler) -> void
+		const config::FallbackHandler &fallbackHandler) -> void
 {
 	// Get a reference that allows us to modify our own config attributes
     auto &&configAttributes = initializer[Class::instance().configHandle()];
@@ -70,32 +72,32 @@ auto TemplateClient::loadConfig(const ConfigIntializer &initializer,
 	}
 }
 
-auto TemplateClient::createSubservice(const process::MicroserviceClass &ioClass, plugin::SharedFactory<process::Microservice> &factory)
-	-> std::shared_ptr<process::Microservice>
+auto TemplateClient::createChildElement(const skill::Element::Class &elementClass, skill::ElementFactory &factory)
+	-> std::shared_ptr<skill::Element>
 {
-	if (&ioClass == &TemplateTransaction::Class::instance())
+	if (&elementClass == &TemplateTransaction::Class::instance())
 	{
 		return factory.makeShared<TemplateTransaction>(*this);
 	}
 
-	/// @todo add any other supported subservice types
+	/// @todo add any other supported child element types
 
 	return nullptr;
 }
 
-auto TemplateClient::resolveAttribute(std::string_view name) -> const model::Attribute *
+auto TemplateClient::forEachAttribute(const model::ForEachAttributeFunction &function) const -> bool
 {
-	/// @todo resolve any attributes this class supports using model::Attribute::resolve
+	/// @todo call the function with any attributes this class supports
 
-	return nullptr;
+	return false;
 }
 
-auto TemplateClient::readHandle(const model::Attribute &attribute) const noexcept -> data::ReadHandle
+auto TemplateClient::makeReadHandle(const model::Attribute &attribute) const noexcept -> std::optional<data::ReadHandle>
 {
 	/// @todo create read handles for any readable attributes this class supports
 
 	// Nothing found
-	return data::ReadHandle::Error::Unknown;
+	return std::nullopt;
 }
 
 auto TemplateClient::prepare() -> void
