@@ -60,4 +60,4 @@ The template code has the following features:
 - The skill element publishes a [Xentara task](https://docs.xentara.io/xentara/xentara_element_members.html#xentara_tasks) called *send*,
   which collect a set of records and sends them to the service instance.
 - The skill element publishes [Xentara events](https://docs.xentara.io/xentara/xentara_element_members.html#xentara_events) to signal when
-  a record batch was sent, or if a send error occurred.
+  a transaction was sent, or if a send error occurred.
